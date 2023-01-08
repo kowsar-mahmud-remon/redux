@@ -6,54 +6,78 @@
 const { createStore } = require("redux");
 
 // CONSTANTS
-const INCREMENT = 'INCREMENT';
-const DECREMENT = 'DECREMENT';
-const RESET = 'RESET';
+// const INCREMENT = 'INCREMENT';
+// const INCREMENT_BY_VALUE = 'INCREMENT_BY_VALUE';
+// const DECREMENT = 'DECREMENT';
+// const RESET = 'RESET';
+const ADD_USER = 'ADD_USER';
 
 const initialState = {
-  count: 0
+  users: ['remon'],
+  count: 1
 };
 
-const incrementCounterAction = () => {
+// const incrementCounterAction = () => {
+//   return {
+//     type: INCREMENT
+//   };
+// };
+
+const addUser = (user) => {
   return {
-    type: INCREMENT
+    type: ADD_USER,
+    payload: user
   };
 };
 
-const decrementCounterAction = () => {
-  return {
-    type: DECREMENT
-  };
-};
+// const decrementCounterAction = () => {
+//   return {
+//     type: DECREMENT
+//   };
+// };
 
-const resetCounterAction = () => {
-  return {
-    type: RESET
-  };
-};
+// const resetCounterAction = () => {
+//   return {
+//     type: RESET
+//   };
+// };
+
+// const incrementCounterByValue = (value) => {
+//   return {
+//     type: INCREMENT_BY_VALUE,
+//     payload: value
+//   };
+// };
 
 // CREATION REDUCER
-const counterReducer = (state = initialState, action) => {
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case INCREMENT:
+    //   case INCREMENT:
+
+    //     return {
+    //       ...state,
+    //       count: state.count + 1
+    //     };
+
+    //   case DECREMENT:
+
+    //     return {
+    //       ...state,
+    //       count: state.count - 1
+    //     };
+
+    //   case RESET:
+
+    //     return {
+    //       ...state,
+    //       count: 0
+    //     };
+
+    case ADD_USER:
 
       return {
-        ...state,
+        users: [...state.users, action.payload],
         count: state.count + 1
-      };
-
-    case DECREMENT:
-
-      return {
-        ...state,
-        count: state.count - 1
-      };
-
-    case RESET:
-
-      return {
-        ...state,
-        count: 0
       };
 
     default:
@@ -62,17 +86,24 @@ const counterReducer = (state = initialState, action) => {
 };
 
 // store
-const store = createStore(counterReducer);
+const store = createStore(userReducer);
 
 store.subscribe(() => {
   console.log(store.getState());
 });
 
-store.dispatch(incrementCounterAction());
-store.dispatch(incrementCounterAction());
-store.dispatch(decrementCounterAction());
-store.dispatch(resetCounterAction());
-store.dispatch(incrementCounterAction());
+store.dispatch(addUser('kowsar'));
+store.dispatch(addUser('Mahmud'));
+
+
+
+// store.dispatch(incrementCounterAction());
+// store.dispatch(incrementCounterAction());
+// store.dispatch(decrementCounterAction());
+// store.dispatch(resetCounterAction());
+// store.dispatch(incrementCounterAction());
+// store.dispatch(incrementCounterByValue(5));
+// store.dispatch(incrementCounterByValue(10));
 
 
 
