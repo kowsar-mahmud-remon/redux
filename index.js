@@ -1,99 +1,225 @@
-// state - count: 0
-// action - increment, decrement, reset
-// reducer
-// store
+// multiple reducer
+const { createStore, combineReducers } = require("redux");
 
-const { createStore } = require("redux");
+// product constants
+const GET_PRODUCTS = 'GET_PRODUCTS';
+const ADD_PRODUCTS = 'ADD_PRODUCTS';
 
-// CONSTANTS
-// const INCREMENT = 'INCREMENT';
-// const INCREMENT_BY_VALUE = 'INCREMENT_BY_VALUE';
-// const DECREMENT = 'DECREMENT';
-// const RESET = 'RESET';
-const ADD_USER = 'ADD_USER';
+const GET_CART_ITEMS = 'GET_CART_ITEMS';
+const ADD_CART_ITEMS = 'ADD_CART_ITEMS';
 
-const initialState = {
-  users: ['remon'],
-  count: 1
+// product states
+const initialProductState = {
+  products: ['sugar', 'salt'],
+  numberOfProducts: 2
 };
 
-// const incrementCounterAction = () => {
-//   return {
-//     type: INCREMENT
-//   };
-// };
+// cart states
+const initialCartState = {
+  cart: ['sugar'],
+  numberOfProducts: 1
+};
 
-const addUser = (user) => {
+// products action
+const getProducts = () => {
   return {
-    type: ADD_USER,
-    payload: user
+    type: GET_PRODUCTS
   };
 };
 
-// const decrementCounterAction = () => {
-//   return {
-//     type: DECREMENT
-//   };
-// };
+const addProducts = (product) => {
+  return {
+    type: ADD_PRODUCTS,
+    payload: product
+  };
+};
 
-// const resetCounterAction = () => {
-//   return {
-//     type: RESET
-//   };
-// };
+// cart action
+const getCart = () => {
+  return {
+    type: GET_CART_ITEMS
+  };
+};
 
-// const incrementCounterByValue = (value) => {
-//   return {
-//     type: INCREMENT_BY_VALUE,
-//     payload: value
-//   };
-// };
+const addCart = (product) => {
+  return {
+    type: ADD_CART_ITEMS,
+    payload: product
+  };
+};
 
-// CREATION REDUCER
-const userReducer = (state = initialState, action) => {
+// productReducer
+const productReducer = (state = initialProductState, action) => {
   switch (action.type) {
-    //   case INCREMENT:
-
-    //     return {
-    //       ...state,
-    //       count: state.count + 1
-    //     };
-
-    //   case DECREMENT:
-
-    //     return {
-    //       ...state,
-    //       count: state.count - 1
-    //     };
-
-    //   case RESET:
-
-    //     return {
-    //       ...state,
-    //       count: 0
-    //     };
-
-    case ADD_USER:
+    case GET_PRODUCTS:
 
       return {
-        users: [...state.users, action.payload],
-        count: state.count + 1
+        ...state
+      };
+
+    case ADD_PRODUCTS:
+
+      return {
+        products: [...state.products, action.payload],
+        numberOfProducts: state.numberOfProducts + 1
       };
 
     default:
-      state;
+      return state;
   }
 };
 
+// cartReducer
+const cartReducer = (state = initialCartState, action) => {
+  switch (action.type) {
+    case GET_CART_ITEMS:
+
+      return {
+        ...state
+      };
+
+    case ADD_CART_ITEMS:
+
+      return {
+        cart: [...state.cart, action.payload],
+        numberOfProducts: state.numberOfProducts + 1
+      };
+
+    default:
+      return state;
+  }
+};
+
+const rootReducer = combineReducers({
+  productR: productReducer,
+  cartR: cartReducer
+});
+
 // store
-const store = createStore(userReducer);
+const store = createStore(rootReducer);
 
 store.subscribe(() => {
   console.log(store.getState());
 });
 
-store.dispatch(addUser('kowsar'));
-store.dispatch(addUser('Mahmud'));
+store.dispatch(getProducts());
+store.dispatch(addProducts('pen'));
+
+store.dispatch(getCart());
+store.dispatch(addCart('pen'));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ==============================
+
+// // state - count: 0
+// // action - increment, decrement, reset
+// // reducer
+// // store
+
+// const { createStore } = require("redux");
+
+// // CONSTANTS
+// // const INCREMENT = 'INCREMENT';
+// // const INCREMENT_BY_VALUE = 'INCREMENT_BY_VALUE';
+// // const DECREMENT = 'DECREMENT';
+// // const RESET = 'RESET';
+// const ADD_USER = 'ADD_USER';
+
+// const initialState = {
+//   users: ['remon'],
+//   count: 1
+// };
+
+// // const incrementCounterAction = () => {
+// //   return {
+// //     type: INCREMENT
+// //   };
+// // };
+
+// const addUser = (user) => {
+//   return {
+//     type: ADD_USER,
+//     payload: user
+//   };
+// };
+
+// // const decrementCounterAction = () => {
+// //   return {
+// //     type: DECREMENT
+// //   };
+// // };
+
+// // const resetCounterAction = () => {
+// //   return {
+// //     type: RESET
+// //   };
+// // };
+
+// // const incrementCounterByValue = (value) => {
+// //   return {
+// //     type: INCREMENT_BY_VALUE,
+// //     payload: value
+// //   };
+// // };
+
+// // CREATION REDUCER
+// const userReducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     //   case INCREMENT:
+
+//     //     return {
+//     //       ...state,
+//     //       count: state.count + 1
+//     //     };
+
+//     //   case DECREMENT:
+
+//     //     return {
+//     //       ...state,
+//     //       count: state.count - 1
+//     //     };
+
+//     //   case RESET:
+
+//     //     return {
+//     //       ...state,
+//     //       count: 0
+//     //     };
+
+//     case ADD_USER:
+
+//       return {
+//         users: [...state.users, action.payload],
+//         count: state.count + 1
+//       };
+
+//     default:
+//       state;
+//   }
+// };
+
+// // store
+// const store = createStore(userReducer);
+
+// store.subscribe(() => {
+//   console.log(store.getState());
+// });
+
+// store.dispatch(addUser('kowsar'));
+// store.dispatch(addUser('Mahmud'));
 
 
 
@@ -108,9 +234,7 @@ store.dispatch(addUser('Mahmud'));
 
 
 
-
-
-
+// =======================================
 
 
 // const { createStore } = require('redux');
